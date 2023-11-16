@@ -1,4 +1,4 @@
-public class Fraction implements Nombre<Fraction>{
+public class Fraction implements Nombre<Fraction>,  Comparable<Fraction> {
     private double numerateur;
     private double denominateur;
 
@@ -54,5 +54,17 @@ public class Fraction implements Nombre<Fraction>{
                 "numerateur=" + numerateur +
                 ", denominateur=" + denominateur +
                 '}';
+    }
+
+    private double fractionADouble(){
+        return numerateur/denominateur;
+    }
+
+    @Override
+    public int compareTo(Fraction fraction) {
+        fraction = this.sub(fraction);
+        double fractionDouble = fraction.fractionADouble();
+        double arrondi = Math.ceil( Math.abs( fractionDouble ) );
+        return (int)(Math.signum(fractionDouble) * arrondi);
     }
 }
