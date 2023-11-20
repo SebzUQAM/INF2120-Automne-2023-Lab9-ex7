@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 
 public class Tri {
@@ -312,8 +313,7 @@ public class Tri {
      * La methode va aussi verifier si le tableau resultant est trie.
      * Un message d'erreur est affiche pour chaque case non trie.
      */
-    public static void testCharge() {
-        final int TAILLE = 1_000_000;
+    public static void testCharge(int TAILLE) {
         // construire un grand tableau de valeur aleatoire :
         Integer [] tab5 = ( new Random( 0 ).ints( TAILLE ).boxed().toArray( Integer[]::new ) );
 
@@ -336,13 +336,26 @@ public class Tri {
         }
     }
 
+    public static void testChargeArray(int TAILLE) {
+        // construire un grand tableau de valeur aleatoire :
+        Integer [] tab5 = ( new Random( 0 ).ints( TAILLE ).boxed().toArray( Integer[]::new ) );
 
+        // trier et afficher le temps d'execution.
+        long tempDebut = System.nanoTime();
+        Arrays.sort(tab5);
+        long tempsExecution = System.nanoTime() - tempDebut;
+        System.out.println( ( tempsExecution / 1_000_000_000 ) + " sec " + ( ( tempsExecution / 1000000 ) % 1000 ) + " millis " + ( ( tempsExecution / 1000 ) % 1000 ) + " micros " + ( tempsExecution % 1000 ) + " nanos" );
 
-
-    // MAIN :
-
-    public static void main(String[] args) {
-        miniTest();
-        testCharge();
+        // Verifier s'il y a une erreur de trie :
+        boolean estTrie = true;
+        for( int i = 0; i < tab5.length - 1; ++ i ) {
+            if( tab5[i].compareTo( tab5[i + 1] ) > 0 ) {
+                estTrie = false;
+                System.err.println( "Erreur : valeur a la case " + i + " plus grande que celle a la case " + ( i + 1 ) );
+            }
+        }
+        if( estTrie ) {
+            System.out.println( "Le Arrays.sort fonctionne correctement pour ce tableau." );
+        }
     }
 }
